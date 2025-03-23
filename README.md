@@ -1,16 +1,14 @@
-# demo-vue
+# 这里是挑战杯项目前端部署说明
 
-This template should help get you started developing with Vue 3 in Vite.
-
-## Recommended IDE Setup
+## 推荐的IDE工具
 
 [VSCode](https://code.visualstudio.com/) + [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur).
 
-## Customize configuration
+## 自定义配置
 
 See [Vite Configuration Reference](https://vitejs.dev/config/).
 
-## Project Setup
+## 搭建项目
 
 ```sh
 npm install
