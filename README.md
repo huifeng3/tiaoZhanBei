@@ -8,20 +8,14 @@
 
 See [Vite Configuration Reference](https://vitejs.dev/config/).
 
-## 搭建项目
+## 下载npm
 
 ```sh
 npm install
 ```
 
-### Compile and Hot-Reload for Development
+### 运行项目
 
 ```sh
 npm run dev
-```
-
-### Compile and Minify for Production
-
-```sh
-npm run build
 ```
