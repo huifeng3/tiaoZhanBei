@@ -112,15 +112,21 @@ export default {
             posts: [
                 {
                     avatar: "/src/assets/img/avatar_1.jpg",
-                    nickname: '用户A',
+                    nickname: '云淡风清',
                     content: '发布了第一条动态发布了第一条动态发布了第一条动态发布了第一条动态发布了第一条动态发布了第一条动态发布了第一条动态发布了第一条动态发布了第一条动态',
-                    timestamp: '2023-10-01 12:00'
+                    timestamp: '2025-2-05 8:32'
                 },
                 {
                     avatar: "/src/assets/img/avatar_2.jpeg",
-                    nickname: '用户B',
+                    nickname: '(*/ω＼*)暖青',
                     content: '发布了第二条动态',
-                    timestamp: '2023-10-01 12:05'
+                    timestamp: '2025-3-02 11:29'
+                },
+                {
+                    avatar: "/src/assets/img/avatar_3.jpg",
+                    nickname: '用户A',
+                    content: '发布了第一条动态发布了第一条动态发布了第一条动态发布了第一条动态发布了第一条动态发布了第一条动态发布了第一条动态发布了第一条动态发布了第一条动态',
+                    timestamp: '2025-2-05 8:32'
                 },
                 // 更多动态...
             ],
