@@ -5,10 +5,13 @@
             <div class="left-content">
                 <div class="title-bar">
                     社区动态
+                    <el-select v-model="selectedType" placeholder="请选择动态类型" class="type-select">
+                        <el-option v-for="type in typeOptions" :key="type" :label="type" :value="type" />
+                    </el-select>
                 </div>
                 <div class="post-container">
                     <!-- 动态列表 -->
-                    <div v-for="(post, index) in posts" :key="index" class="post">
+                    <div v-for="(post, index) in filteredPosts" :key="index" class="post">
                         <div class="post-header">
                             <img :src=post.avatar alt="User Avatar" class="post-avatar">
                             <div class="post-info">
@@ -22,6 +25,7 @@
                         <div class="post-actions">
                             <button class="action-button like-button">点赞</button>
                             <button class="action-button comment-button">评论</button>
+                            <span class="post-type">{{ post.type }}</span>
                         </div>
                     </div>
                 </div>
@@ -113,29 +117,35 @@ export default {
                 {
                     avatar: "/src/assets/img/avatar_1.jpg",
                     nickname: '云淡风清',
-                    content: '最近在平台上学习了防诈知识，特别是关于刷单诈骗的部分，真的让我受益匪浅。之前差点被一个“高额回报”的广告骗了，幸好在这里提前了解到了这类骗局的特征，避免了损失！',
-                    timestamp: '2025-2-05 8:32'
+                    content: '我在网上找房子租，看到一个房东发的视频，感觉很真实，对方还主动开视频通话，确实是跟房东发布的照片长得一样，说话也很自然。我当时没多想，就按要求交了2000元押金。结果第二天再联系，发现人已经消失了！后来我仔细想了一下，感觉哪里不对劲，查了一些资料，才知道骗子可能是用了deepfake换脸技术，把别人发布的房东视频替换成了自己的口型，加上AI语音合成，伪造了这次视频通话！以后再遇到这种情况，一定要亲自去实地看房，千万别相信网络上的视频！',
+                    timestamp: '2025-2-05 8:32',
+                    type: '案例分享'
                 },
                 {
                     avatar: "/src/assets/img/avatar_2.jpeg",
                     nickname: '(*/ω＼*)暖青',
-                    content: '防诈知识问答的设计非常实用，特别是那些详细的解析，让我对诈骗手段有了更清晰的认识。尤其是关于假冒客服的案例，让我意识到不能轻易相信陌生电话。',
-                    timestamp: '2025-3-02 11:29'
+                    content: '前几天，我妈接到一个电话，对方自称是我，说自己出车祸了，急需5万元医药费，让她立刻转账！我妈当时都吓哭了，连我爸都信了，差点就转账了。还好我妹妹机智，直接打了我的手机，发现我根本没事！后来我们回拨那个电话，发现已经打不通了。我上网查了才知道，这些骗子用了AI语音合成技术，可以模仿任何人的声音，简直太可怕了！大家一定要告诉家里人，不管电话里听到什么，一定要多方确认，千万别直接转账！',
+                    timestamp: '2025-3-02 11:29',
+                    type: '案例分享'
                 },
                 {
                     avatar: "/src/assets/img/avatar_3.jpg",
                     nickname: '海阔天空',
                     content: '平台的诈骗案例分析很接地气，特别是那个关于“解冻费”的案例，我身边的朋友就遇到过类似的情况。希望这类内容能继续更新，帮助更多人提高警惕！',
-                    timestamp: '2025-1-02 17:08'
+                    timestamp: '2025-1-02 17:08',
+                    type: '产品评论'
                 },
                 {
                     avatar: "/src/assets/img/avatar_4.jpg",
                     nickname: 'echo hello world',
                     content: '作为一个经常网购的人，平台的安全建议对我帮助很大。特别是提醒不要随意点击陌生链接，这让我在收到可疑短信时更加谨慎。感谢平台的用心！',
-                    timestamp: '2025-1-02 17:08'
+                    timestamp: '2025-1-02 17:08',
+                    type: '产品评论'
                 },
                 // 更多动态...
             ],
+            selectedType: '全部', // 默认选中“全部”
+            typeOptions: ['全部', '知识分享', '案例分享', '产品评论'], // 动态类型选项
             newPost: '',
             questions: [
                 {
@@ -299,6 +309,13 @@ export default {
     computed: {
         currentQuestion() {
             return this.questions[this.currentQuestionIndex];
+        },
+        filteredPosts() {
+            if (this.selectedType === '全部') {
+                return this.posts; // 显示全部动态
+            } else {
+                return this.posts.filter(post => post.type === this.selectedType); // 根据类型过滤
+            }
         }
     },
 
@@ -669,5 +686,24 @@ export default {
 
 .custom-ul {
     padding-left: 23px;
+}
+
+.post-type {
+    margin-left: 10px;
+    font-size: 14px;
+    color: #666;
+    padding: 5px 10px;
+    background-color: #f0f0f0;
+    border-radius: 5px;
+}
+
+.type-select {
+    margin-left: auto; /* 将 select 推到右侧 */
+    width: 20%; /* 设置宽度 */
+}
+
+.type-select ::v-deep .el-select__wrapper {
+    height: 80%; /* 设置高度 */
+    font-size: 14px; /* 设置字体大小 */
 }
 </style>
