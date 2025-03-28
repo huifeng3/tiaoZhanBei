@@ -86,7 +86,7 @@ export default {
           isReportButtonDisabled: false,
           progress: 0, // Track the progress percentage
           isProgressVisible: false, // Track if the progress bar is visible
-          progressStatus: 'success', // Track the status of the progress bar
+          progressStatus: 'false', // Track the status of the progress bar
           displayContent:{
             Confidence:{
               fraud:"-1",
@@ -151,7 +151,20 @@ export default {
     if (!NERTC.checkSystemRequirements()) {
       this.isSupport = false;
     }
-    this.initChart();
+    // this.initChart();
+    // this.$nextTick(() => {
+    //   this.initChart();
+    // });
+    // this.initChart();
+  },
+  watch: {
+    progressStatus(newVal, oldVal) {
+      if(newVal === 'success'){
+        this.$nextTick(() => {
+          this.initChart();
+        });
+      }
+    },
   },
   methods: {
       // Trigger file input click for video upload
@@ -172,50 +185,52 @@ export default {
               this.uploadedTextContent = '';
               this.uploadedVideoUrl = URL.createObjectURL(file);
 
-              // Prepare the form data for uploading the media file
-              const formData = new FormData();
-              formData.append('file', file);
+              // // Prepare the form data for uploading the media file
+              // const formData = new FormData();
+              // formData.append('file', file);
 
-              try {
-                  const response = await axios.post('/robot/upload-temp/', formData, {
-                      headers: {
-                          'Content-Type': 'multipart/form-data',
-                          ...this.uploadHeaders
-                      }
-                  });
-                  this.fileUrl = response.data.fileUrl || `http://localhost:8000/media/${response.data.filePath}`;
-                  this.fileName = file.name;
-                  console.log('Media file uploaded successfully:', this.fileUrl);
-              } catch (error) {
-                  console.error('Media file upload failed:', error);
-              }
-          } else if (fileType === 'text/plain') {
+              // try {
+              //     const response = await axios.post('/robot/upload-temp/', formData, {
+              //         headers: {
+              //             'Content-Type': 'multipart/form-data',
+              //             ...this.uploadHeaders
+              //         }
+              //     });
+              //     this.fileUrl = response.data.fileUrl || `http://localhost:8000/media/${response.data.filePath}`;
+              //     this.fileName = file.name;
+              //     console.log('Media file uploaded successfully:', this.fileUrl);
+              // } catch (error) {
+              //     console.error('Media file upload failed:', error);
+              // }
+          } else if (fileType === 'text/plain' || file.name.endsWith('.txt')) {
               // Clear any previous media URL and display text snippet
               this.uploadedVideoUrl = '';
+              
 
               const reader = new FileReader();
               reader.onload = (e) => {
                   this.uploadedTextContent = e.target.result.slice(0, 1000) ; // Display first 100 characters
+                  console.log(this.uploadedTextContent);
               };
               reader.readAsText(file);
 
-              // Prepare the form data for uploading the text file
-              const formData = new FormData();
-              formData.append('file', file);
+              // // Prepare the form data for uploading the text file
+              // const formData = new FormData();
+              // formData.append('file', file);
 
-              try {
-                  const response = await axios.post('/robot/upload-temp/', formData, {
-                      headers: {
-                          'Content-Type': 'multipart/form-data',
-                          ...this.uploadHeaders
-                      }
-                  });
-                  this.fileUrl = response.data.fileUrl || `http://localhost:8000/media/${response.data.filePath}`;
-                  this.fileName = file.name;
-                  console.log('Text file uploaded successfully:', this.fileUrl);
-              } catch (error) {
-                  console.error('Text file upload failed:', error);
-              }
+              // try {
+              //     const response = await axios.post('/robot/upload-temp/', formData, {
+              //         headers: {
+              //             'Content-Type': 'multipart/form-data',
+              //             ...this.uploadHeaders
+              //         }
+              //     });
+              //     this.fileUrl = response.data.fileUrl || `http://localhost:8000/media/${response.data.filePath}`;
+              //     this.fileName = file.name;
+              //     console.log('Text file uploaded successfully:', this.fileUrl);
+              // } catch (error) {
+              //     console.error('Text file upload failed:', error);
+              // }
           } else {
               alert('只支持视频、音频文件或.txt文件');
           }
@@ -223,18 +238,21 @@ export default {
 
       // Start monitoring folder for new videos with a 7-second delay
       async handleStartMonitoring() {
-        if (!this.fileUrl) {
+        if (!this.uploadedVideoUrl && !this.uploadedTextContent) {
           this.$message({
             message: '请先上传文件',
             type: 'warning'
           });
+          console.log("错误");
           return;
         }
+
+        console.log("你好");
 
         this.showJsonAnimation = true; // Show JSON animation
         this.isProgressVisible = true; // Show progress bar
         this.progress = 0; // Reset progress to 0
-        this.progressStatus = 'success'; // Reset progress status
+        this.progressStatus = 'false'; // Reset progress status
 
         const userMessageTime = new Date();
         const userTimeString = this.formatDate(userMessageTime);
@@ -248,42 +266,39 @@ export default {
         };
 
         this.messages.push(userMessage);
-
-        // Simulate progress update
+                // Simulate progress update
         const interval = setInterval(() => {
           if (this.progress >= 100) {
             clearInterval(interval);
-            this.showJsonAnimation = false;
-            this.isReportButtonDisabled = false;
             this.progressStatus = 'success'; // Set progress status to success
           } else {
             this.progress += 10; // Increase progress by 10%
           }
-        }, 700); // Update every 700ms
+        }, 1000); // Update every 1000ms (1 second)
 
-        try {
-          const response = await axios.post('/robot/analyze/', { fileUrl: this.fileUrl }, {
-            headers: {
-              'Authorization': `Bearer ${localStorage.getItem('access')}`,
-              'Content-Type': 'application/json'
-            }
-          });
-          this.displayContent.Confidence = response.data.Confidence;
-          this.displayContent.video = response.data.video;
-          this.displayContent.action = response.data.action;
-          this.displayContent.soundEmotion = response.data.soundEmotion;
-          this.displayContent.emotion = response.data.emotion;
-          this.displayContent.sound = response.data.sound;
-          this.displayContent.text = response.data.text;
-          this.videoFilePath = response.data.videoFilePath;
-          this.displayContent.videoText = response.data.videoText;
-          this.displayContent.transfer = response.data.transfer;
+        // try {
+        //   const response = await axios.post('/robot/analyze/', { fileUrl: this.fileUrl }, {
+        //     headers: {
+        //       'Authorization': `Bearer ${localStorage.getItem('access')}`,
+        //       'Content-Type': 'application/json'
+        //     }
+        //   });
+        //   this.displayContent.Confidence = response.data.Confidence;
+        //   this.displayContent.video = response.data.video;
+        //   this.displayContent.action = response.data.action;
+        //   this.displayContent.soundEmotion = response.data.soundEmotion;
+        //   this.displayContent.emotion = response.data.emotion;
+        //   this.displayContent.sound = response.data.sound;
+        //   this.displayContent.text = response.data.text;
+        //   this.videoFilePath = response.data.videoFilePath;
+        //   this.displayContent.videoText = response.data.videoText;
+        //   this.displayContent.transfer = response.data.transfer;
 
-          console.log('Monitoring started:', response.data.videoFilePath);
-        } catch (error) {
-          console.error('Analysis failed:', error);
-          this.progressStatus = 'exception'; // Set progress status to exception
-        }
+        //   console.log('Monitoring started:', response.data.videoFilePath);
+        // } catch (error) {
+        //   console.error('Analysis failed:', error);
+        //   this.progressStatus = 'exception'; // Set progress status to exception
+        // }
       },
       formatDate(date) {
       const year = date.getFullYear();
@@ -605,7 +620,7 @@ object-fit: cover; /* Maintain aspect ratio and avoid overflow */
 }
 
 .chart {
-  width: 100%;
+  width: 100% !important;
   height: 220px;
   margin-top: 20px;
   margin-bottom: 30px;
