@@ -24,7 +24,7 @@
         </div>
       </div>
     </div>
-    <ExpandablePanel :displayContent="displayContent" :isReportButtonDisabled="isReportButtonDisabled"></ExpandablePanel>
+    <ExpandablePanel :displayContent="displayContent" :isReportButtonDisabled="isReportButtonDisabled" style="text-align: center;"></ExpandablePanel>
     <ul class="tab-bar">
       <li :class="{ silence: true, isSilence }" @click="setOrRelieveSilence"></li>
       <li :class="{ recording: true, isRecording }" @click="toggleRecording"></li>
@@ -712,7 +712,7 @@ export default {
 
 <style scoped lang="less">
 .wrapper {
-  height: 94vh;
+  height: 100%;
   background-image: linear-gradient(179deg, #141417 0%, #181824 100%);
   display: flex;
   flex-direction: column;
