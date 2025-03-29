@@ -127,6 +127,9 @@
                   如果需要进一步的安全提示或帮助，我随时为您提供支持。</div>
             </div>
             <div class="chat-input">
+              <button>
+                <img src="/src/assets/img/icon/audio.png" class="audio-button" alt="audio icon">
+              </button>
               <textarea v-model="userInput" placeholder="请输入消息..."></textarea>
               <button @click="sendMessage">发送</button>
             </div>
@@ -738,6 +741,7 @@ body {
   border: 2px solid #ccc;
   border-radius: 4px;
   font-size: 16px;
+  margin-right: 10px;
   resize: none;
   /* 禁止手动调整大小 */
   min-height: 50px;
@@ -754,7 +758,7 @@ body {
 
 .robot-chat .chat-input button {
   padding: 10px 20px;
-  margin-left: 10px;
+  margin-right: 10px;
   background-color: #1567bb;
   color: #fff;
   border: none;
@@ -765,5 +769,10 @@ body {
 
 .robot-chat .chat-input button:hover {
   background-color: #2a82db;
+}
+
+.audio-button{
+  width: 35px;
+  height: 35px;
 }
 </style>
