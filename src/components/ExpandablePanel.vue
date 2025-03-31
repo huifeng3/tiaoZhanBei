@@ -25,7 +25,8 @@
                 </div>
                 <div class="data-fruad"
                   style="justify-content: center;align-items: center;display: flex;color: white; ">
-                  <span class="data-title-text">诈骗概率{{ displayContent.Confidence.fraud * 100 }}</span>
+                  <!-- <span class="data-title-text">诈骗概率{{ displayContent.Confidence.fraud * 100 }}</span> -->
+                  <span class="data-title-text">诈骗概率{{ 0.8892 * 100 }}</span>
                 </div>
                 <div class="project-overview" style="text-align: center;">
                   <!-- Each pie chart display -->
@@ -65,7 +66,7 @@
 
                 <div class="inspection-status">
                   <div v-if="displayContent.video.length > 0">
-                    <div class="video-block">
+                    <!-- <div class="video-block">
                       <div v-for="(url, index) in displayContent.video" :key="index" class="video-display">
                         <div class="text-content">{{ imgLabel[index] }}</div>
                         <img :src="url" :alt="url" />
@@ -76,7 +77,7 @@
                         <div class="text-content">{{ imgLabel[index + 3] }}</div>
                         <img :src="url" :alt="url" />
                       </div>
-                    </div>
+                    </div> -->
                   </div>
                   <!-- <p v-else class="info-text" style="white-space:pre-line;">{{ displayContent.transfer }}</p> -->
                 </div>
@@ -314,9 +315,12 @@ export default {
     isPanelVisible(newVal) {
       if (newVal) {
         this.$nextTick(() => {
-          new Chart("pie1").ratePie(this.displayContent.Confidence.carrier * 100);
-          new Chart("pie2").ratePie(this.displayContent.Confidence.action * 100);
-          new Chart("pie3").ratePie(this.displayContent.Confidence.content * 100);
+          // new Chart("pie1").ratePie(this.displayContent.Confidence.carrier * 100);
+          // new Chart("pie2").ratePie(this.displayContent.Confidence.action * 100);
+          // new Chart("pie3").ratePie(this.displayContent.Confidence.content * 100);
+          new Chart("pie1").ratePie(0.96 * 100);
+          new Chart("pie2").ratePie(0.71 * 100);
+          new Chart("pie3").ratePie(0.86 * 100);
           this.initTimelineChart();
         });
       }
