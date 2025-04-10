@@ -5,6 +5,6 @@
 // }
 // config\index.js
 export default {
-    appkey: 'd3e99ad18e40d7323fcfb320235e1033', // 请输入自己的appkey
-    appSecret: '3f1072d35631' // 请输入自己的appSecret
+    appkey: '5c2ab22fb5ede97497b0607dc193a0cb', // 请输入自己的appkey
+    appSecret: '48da665db88d' // 请输入自己的appSecret
 }
