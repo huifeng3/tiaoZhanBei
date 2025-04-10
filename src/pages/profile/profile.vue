@@ -1,7 +1,7 @@
 <template>
   <div class="page mine">
     <div class="content" @click="onModifyInfo">
-      <img :src="userInfo.headImage" class="avatar" alt="头像">
+      <img :src="'/src/assets/img/fake.jpg'" class="avatar" alt="头像">
       <div class="info-item">
         <div class="info-primary">
           <span class="info-username">{{ userInfo.username }}</span>
@@ -37,14 +37,14 @@
 <script>
 import axios from '../../axios';
 import { ElMessageBox, ElMessage } from 'element-plus';
-import HeadIcon from '@/assets/img/bg2.jpeg';
+import HeadIcon from '@/assets/img/fake.jpg';
 export default {
   data() {
     return {
       userInfo: {
         username: '',
         nickName: '123',
-        headImage: HeadIcon,
+        headImage: '/src/assets/img/fake.jpg',
         sex: 0,
         signature: '123'
       }

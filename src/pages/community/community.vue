@@ -311,11 +311,12 @@ export default {
             return this.questions[this.currentQuestionIndex];
         },
         filteredPosts() {
-            if (this.selectedType === '全部') {
-                return this.posts; // 显示全部动态
-            } else {
-                return this.posts.filter(post => post.type === this.selectedType); // 根据类型过滤
+            let filtered = this.posts;
+            if (this.selectedType !== '全部') {
+                filtered = this.posts.filter(post => post.type === this.selectedType);
             }
+            // 按照时间排序
+            return filtered.sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp));
         }
     },
 
@@ -331,9 +332,10 @@ export default {
         addPost() {
             if (this.newPost.trim() !== '') {
                 const newPost = {
-                    avatar: "/src/assets/img/avatar_1.jpg", // 默认头像
+                    avatar: "/src/assets/img/fake.jpg", // 默认头像
                     nickname: '你', // 默认昵称
                     content: this.newPost,
+                    type: '产品评论',
                     timestamp: new Date().toLocaleString() // 当前时间
                 };
                 this.posts.push(newPost);
@@ -698,12 +700,16 @@ export default {
 }
 
 .type-select {
-    margin-left: auto; /* 将 select 推到右侧 */
-    width: 20%; /* 设置宽度 */
+    margin-left: auto;
+    /* 将 select 推到右侧 */
+    width: 20%;
+    /* 设置宽度 */
 }
 
 .type-select ::v-deep .el-select__wrapper {
-    height: 80%; /* 设置高度 */
-    font-size: 14px; /* 设置字体大小 */
+    height: 80%;
+    /* 设置高度 */
+    font-size: 14px;
+    /* 设置字体大小 */
 }
 </style>
